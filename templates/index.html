@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>{{name}}'s Watchlist</title>
+    <link rel="icon" href="{{ url_for('static',filename= 'icon.png')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
 </head>
 <body>
-    <h2>{{name}}'s Watchlist</h2>
+    <h2>
+        <img alt="Avatar" class="avatar" src="{{ url_for('static', filename='images/top.png') }}">
+        {{name}}'s Watchlist
+    </h2>
     <p>{{movies|length }} Titles</p>
-    <ul>
+    <ul class="movie-list">
         {% for movie in movies %}
         <li>{{ movie.title }} - {{ movie.year }}</li>
         {% endfor %}
     </ul>
+    <img src="{{url_for('static', filename= 'foo.png')}}" class="footimg">
 </body>
 </html>

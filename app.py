@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask import url_for
 from markupsafe import escape
 
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -12,7 +13,7 @@ def index():
 def user_page(name):
     return f'User:{escape(name)}'
 
-name = 'Alex'
+name = 'alex'
 movies = [
     {'title': 'My Neighbor Totoro', 'year': '1988'},
     {'title': 'Dead Poets Society', 'year': '1989'},
