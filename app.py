@@ -2,8 +2,8 @@ import os
 import sys
 import click
 
-from flask import Flask, render_template
-from flask import url_for
+from flask import Flask, render_template,request
+from flask import url_for,flash,redirect
 from markupsafe import escape
 from flask_sqlalchemy import SQLAlchemy
 
@@ -16,12 +16,51 @@ else :
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(app.root_path, 'data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATION']=False
+app.config['SECRET_KEY'] = 'dev'
 db = SQLAlchemy(app)
 
-@app.route('/')
+@app.route('/' , methods=['GET','POST'])
 def index():
+    if request.method == 'POST':
+        title = request.form.get('title')
+        year  = request.form.get('year')
+        if not year or not title or len(title) > 60 or len(year) != 4:
+            flash('Invalid input.')
+            return redirect(url_for('index'))
+        movie = Movie(title = 'title' , year = 'year')
+        db.session.add(movie)
+        db.session.commit()
+        flash("Created.")
+        return  redirect(url_for('index'))
     movies = Movie.query.all()
     return render_template('index.html', movies= movies)
+
+#编辑条目
+@app.route('/movie/edit/<int:movie_id>', methods=['POST','GET'])
+def edit(movie_id):
+    movie = Movie.query.get_or_404(movie_id)
+
+    if request.method == 'POST':
+        title = request.form['title']
+        year = request.form['year']
+        if not title or not year or len(title) > 60 or len(year) != 4:
+            flash('Invalid input.')
+            return redirect(url_for('edit',movie_id = movie_id))    #重填
+
+        movie.title = title
+        movie.year = year
+        db.session.commit()
+        flash('Item update.')
+        return redirect(url_for('index'))
+    return render_template('edit.html',movie=movie)
+
+@app.route('/movie/delete/<int:movie_id>', methods= ['POST'])      #TODO
+def delete(movie_id):
+    movie_id = Movie.query.get_or_404(movie_id)
+    db.session.delete(movie_id)
+    db.session.commit()
+    flash('Item deleted')
+    return redirect(url_for('index'))
 
 @app.route('/user/<name>')
 def user_page(name):
