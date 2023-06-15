@@ -1,0 +1,61 @@
+<!DOCTYPE html>\n
+<html lang="en">\n
+<head>\n \n
+    <meta charset="utf-8">
+    \n
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    \n <title>test
+        \'s Watchlist</title>\n
+    <link rel="icon" href="/static/icon.png">
+    \n
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    \n \n
+</head>
+\n
+<body>\n \n
+<div class="alert">Item created.<
+    /div>\n \n <h2>\n <img alt="Avatar" class="avatar" src="/static/images/top.png">\n test\'s Watchlist\n </h2>\n
+    <nav>\n
+        <ul>\n
+            <li><a href="/">Home</a></li>
+            \n
+            \n
+            <li><a href="/settings">Settings</a></li>
+            \n
+            <li><a href="/logout">Logout</a></li>
+            \n \n\n
+        </ul>
+        \n
+    </nav>
+    \n \n <p>2 Titles</p>\n \n < form method="post">\n Name <input type="text" name="title" autocomplete="off" required>\n Year <input type="text"
+                                                                                                          name="year"
+                                                                                                          autocomplete="off"
+                                                                                                          required>\n
+    <input class="btn"
+           type="submit" name="submit" value="Add">\n        </form>\n \n\n\n
+    <ul class="movie-list">\n \n
+        <li>\n movie title - 1222\n\n <span class="float-right">\n
+      <a class="imdb" href="https://www.imdb.com/find?q=movie title" target="_blank" title="Find this movie on IMDb">IMDb</a>\n            </span>\n
+            <span class="float-right">\n                \n
+                <a class="btn" href=/movie/edit/1>Edit</a>\n                    <form class="inline-form" method="post"
+                                                                                      action="/movie/delete/1">\n                        <input
+                        class="btn" type="submit" name="
+delete" value="Delete" onclick="return confirm(\'You Sure?\')">\n\n                    </form>\n                \n            </span>\n
+        </li>
+        \n\n \n
+        <li>\n title - year\n\n
+            <span class="float-right">\n                <a class="imdb" href="https://www.imdb.com/find?q=title"
+                                                           target="_blank" title="Find this movie on IMDb">IMDb</a>\n            </span>\n
+            <span class=
+                          "float-right">\n                \n                    <a class="btn"
+                                                                                   href=/movie/edit/2>Edit</a>\n                    <form
+                    class="inline-form" method="post" action="/movie/delete/2">\n                        <
+input class="btn" type="submit" name="delete" value="Delete" onclick="return confirm(\'You Sure?\')">\n\n                    </form>\n                \n            </span>\n
+        </li>
+        \n\n \n
+    </ul>
+    \
+    n <img src="/static/foo.png" class="footimg">\n\n\n
+</body>
+\n
+</html>'
