@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Register</h3>
+<form method="post" onsubmit="validateSelection()">
+    用户名 <br>
+    <input type="text" name="username" required><br><br>
+    密码 <br>
+    <input type="text" name="password" required><br><br>
+    确认密码<br>
+    <input type="text" name="confirm_password" required><br><br>
+    是否为城市管理者：否<input type="radio" name="IsAdmin" value="city_admin" id="city_admin">
+    是<input type="radio" name="IsAdmin" value="city_user" id="city_user"><br><br>
+    <input class="btn" type="submit" name="submit" value="Submit">
+
+    <script>
+        function validateSelection() {
+            const city_adminRadio = document.getElementById('city_admin');
+            const city_userRadio  = document.getElementById('city_user');
+
+            if(!city_adminRadio.checked && !city_userRadio.checked){
+                alert('请选择一个选项');
+                event.preventDefault();
+            }
+        }
+    </script>
+</form>
+{% endblock %}

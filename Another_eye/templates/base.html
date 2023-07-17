@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Another eye</title>
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static' , filename='script/navStyle.css')}}" type="text/css">
+    <script src="static/script/navScript.js" defer></script>
+    {% endblock %}
+</head>
+<body>
+    <div id="sideNav" class="mySideNav">
+        <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times;</a>
+        <a href="{{url_for('index')}}">主页</a>
+        <a href="#">历史日志</a>
+        <a href="{{url_for('aboutMe')}}">关于</a>
+    </div>
+
+
+    <div id="main">
+        <span style="font-size: 30px;cursor: pointer" onclick="openNav()">&#9776; open</span>
+        {% for message in get_flashed_messages() %}
+        <div class="alert">{{message}}</div>
+        {% endfor %}
+        <h2>
+            <img alt="Avatar" class="avatar" src="{{ url_for('static', filename='images/top.png') }}">
+            {{ user.username }}的车辆测距及预警平台
+        </h2>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a  href="{{url_for('settings')}}">Settings</a></li>
+                    <li><a  href="{{url_for('logout')}}">Logout</a></li>
+                {% else %}
+                <li><a href="{{url_for('login')}}">Login</a></li>
+                <li><a href="{{url_for('register')}}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    {% block content %}{% endblock %}
+    </div>
+
+
+</body>
+</html>
