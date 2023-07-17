@@ -1,3 +1,3 @@
 FLASK_DEBUG=1
-FLASK_APP=watchlist
+FLASK_APP=Another_eye
 FLASK_ENV=development

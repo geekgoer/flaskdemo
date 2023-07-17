@@ -11,6 +11,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+from flask_socketio import SocketIO
 
 WIN= sys.platform.startswith('win')
 if WIN :
@@ -25,6 +26,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATION']=False
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY','dev')
 
 db = SQLAlchemy(app)
+socketio = SocketIO(app)
 
 login_manager = LoginManager(app)
 

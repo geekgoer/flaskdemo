@@ -1,28 +1,57 @@
-from flask import render_template, request, url_for, redirect, flash
+from flask import render_template, request, url_for, redirect, flash ,Response
 from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy import and_,or_
 
 from Another_eye import app, db
 from Another_eye.models import User, Movie
 
+import cv2
+
+from Another_eye import socketio
+
+
+
 
 @app.route('/' , methods=['GET','POST'])
 def index():
-    if request.method == 'POST':
-        if not current_user.is_authenticated:
-            return redirect(url_for('index'))
-        title = request.form.get('title')
-        year  = request.form.get('year')
-        if not year or not title or len(title) > 60 or len(year) != 4:
-            flash('Invalid input.')
-            return redirect(url_for('index'))
-        movie = Movie(title = title , year = year)
-        db.session.add(movie)
-        db.session.commit()
-        flash("Item created.")
-        return  redirect(url_for('index'))
-    movies = Movie.query.all()
-    return render_template('index.html', movies= movies)
+    video_feed_url = url_for('video_feed')
+    return render_template('index.html',video_feed_url=video_feed_url)
+
+
+# def gen_video_frames():
+#     camera = cv2.VideoCapture(0)    #TODO
+#     while True:
+#         success,frames = camera.read()
+#         #para : success 一帧是否成功读取 ，frames 所读取的图像数据。
+#         if not success:
+#             break
+#         #格式转换
+#         _,buffer = cv2.imencode('.jpg',frames)
+#         yield buffer.tobytes()
+#     camera.release()
+
+#here
+def gen_frames():
+    camera = cv2.VideoCapture(0)
+    while True:
+        success, frame = camera.read()  # read the camera frame
+        if not success:
+            break
+        else:
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+# @socketio.on('connect')
+# def on_connect():
+#     print('Client connected.')
+#     for frame in gen_video_frames():
+#         socketio.emit('video_frame',frame,binary=True)
 
 
 @app.route('/about')
